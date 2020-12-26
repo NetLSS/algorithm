@@ -11,7 +11,7 @@ game_maps[cur_r][cur_c] = -1
 
 print(game_maps)
 loop = True
-cnt = 0
+cnt = 1
 while loop:
     move = False
     for i in range(4):
@@ -28,7 +28,7 @@ while loop:
                 cnt += 1
                 print("0",cur_r, cur_c)
                 print(game_maps)
-                input("0")
+                #input("0")
                 break
     if move == False:
         mov_r, mov_c = back[cur_way]
@@ -38,20 +38,20 @@ while loop:
             if game_maps[mov_r][mov_c] != 1:
                 cur_c = mov_c
                 cur_r = mov_r
-                cnt+=1
+                #cnt+=1
                 print("1-0",cur_r, cur_c)
                 print(game_maps)
-                input("1-0")
+                #input("1-0")
             if game_maps[mov_r][mov_c] == 1:
                 loop = False
                 print("1",cur_r, cur_c)
                 print(game_maps)
-                input("1")
+                #input("1")
         else:
             loop = False
     print("2",cur_r, cur_c)
     print(game_maps)
-    input("2")
+    #input("2")
 
 
 print(cnt)
@@ -67,4 +67,11 @@ print(cnt)
 1 0 0 1
 1 1 0 1
 1 1 1 1
+
+4 4
+1 1 0
+1 1 1 1
+1 0 0 1
+0 1 0 1
+0 0 0 1
 """
