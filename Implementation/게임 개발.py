@@ -9,7 +9,6 @@ for i in range(rows):
     game_maps.append(i_map)
 game_maps[cur_r][cur_c] = -1
 
-print(game_maps)
 loop = True
 cnt = 1
 while loop:
@@ -26,9 +25,6 @@ while loop:
                 game_maps[cur_r][cur_c] = -1
                 move = True
                 cnt += 1
-                print("0",cur_r, cur_c)
-                print(game_maps)
-                #input("0")
                 break
     if move == False:
         mov_r, mov_c = back[cur_way]
@@ -38,21 +34,10 @@ while loop:
             if game_maps[mov_r][mov_c] != 1:
                 cur_c = mov_c
                 cur_r = mov_r
-                #cnt+=1
-                print("1-0",cur_r, cur_c)
-                print(game_maps)
-                #input("1-0")
             if game_maps[mov_r][mov_c] == 1:
                 loop = False
-                print("1",cur_r, cur_c)
-                print(game_maps)
-                #input("1")
         else:
             loop = False
-    print("2",cur_r, cur_c)
-    print(game_maps)
-    #input("2")
-
 
 print(cnt)
 
