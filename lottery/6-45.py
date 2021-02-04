@@ -41,5 +41,5 @@ for i in range(loop_num):
 
         if len(lottery) == 6:
             break
-
+    lottery.sort()
     print(f"{lottery}")
