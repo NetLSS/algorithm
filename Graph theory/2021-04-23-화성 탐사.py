@@ -27,7 +27,7 @@ for _ in range(T):
         # 우선 순위 큐를 사용하여 최단 거리가 가장 짧은 노드 부터 pop
         dist, x, y = heapq.heappop(q)
         
-        # 노드가 while로 부터 이미 처리된 경우
+        # 노드가 while로 부터 이미 처리된 경우 (최단 거리가 더 짧아져 있으면 갱신된것 이므로)
         if distance[x][y] < dist:
             continue
 
