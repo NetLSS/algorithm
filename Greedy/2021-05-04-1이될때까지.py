@@ -4,9 +4,14 @@ count = 0
 
 while n != 1:
     if n % k == 0:
-        n /= k
+        n //= k
+        count+=1
+    elif n < k:
+        count += n-1
+        n = 1
     else:
-        n -= 1
-    count += 1
+        rest = n % k
+        n = n - rest
+        count += rest
 
 print(count)   
