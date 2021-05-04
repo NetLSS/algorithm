@@ -4,8 +4,7 @@ min_max = -9999
 
 for row in range(n):
     arr = list(map(int, input().split()))
-    arr.sort()
-    min_max = max(min_max, arr[0])
+    min_max = max(min_max, min(arr))
 
 print(min_max)
 
