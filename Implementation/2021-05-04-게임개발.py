@@ -32,33 +32,38 @@ while True:
     for i in range(4):
         move_row = c_row + dx[c_face]
         move_col = c_col + dy[c_face]
+
+        # 불가능한 좌표인 경우 따로 카운트
         if move_col < 0 or move_row < 0 or move_col > m or move_row > n:
             cannot_move_count+=1
             continue
-
+        
+        # 가보지 않은 곳이면 방문
         if game_map[move_row][move_col] == 0:
             c_row = move_row
             c_col = move_col
             
-            print(f"moved {c_row},{c_col} (face:{c_face})")
             game_map[move_row][move_col] = -1
             count += 1
             
             break
-        else:
+        else: # 가봤거나 바다인 경우에는 따로 카운트
             cannot_move_count+=1
         
         c_face = face[c_face-1]
     
+    # 4방향 모두 이동 불가하다면 뒤로 이동
     if cannot_move_count == 4:
         move_row = c_row + dx_back[c_face]
         move_col = c_col + dy_back[c_face]
         if move_col < 0 or move_row < 0 or move_col > m or move_row > n:
             break
+        # 뒤로 이동 불가한 경우 stop
         if game_map[move_row][move_col] == 1: 
             break
 
 print(count)
+
 """
 4 4
 1 1 0
