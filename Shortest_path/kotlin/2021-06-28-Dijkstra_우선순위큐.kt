@@ -15,14 +15,19 @@ fun main() {
 
     val graph = (0..n).map { mutableListOf<Edge>() }.toMutableList()
 
+    // 최단 거리 리스트 (처음에는 무한으로 초기화)
     val distance = (0..n).map { INF }.toMutableList()
 
+    // 각 간선 정보 입력 받기
     for (i in 1..m) {
         val (a, b, cost) = readLine()!!.split(" ").map { it.toInt() }
         graph[a].add(Edge(cost = cost, target = b))
     }
 
+    // dijkstra 함수 정의.
     fun dijkstra(start: Int) {
+
+        // 우선순위 큐 사용
         val q: PriorityQueue<Edge> = PriorityQueue { a, b ->
             when {
                 a.cost < b.cost -> -1
@@ -30,6 +35,8 @@ fun main() {
                 else -> 0
             }
         }
+
+        // 출발 노드를 넣고 시작.
         q.offer(Edge(0, start))
         distance[start] = 0
 
