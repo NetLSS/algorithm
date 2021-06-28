@@ -3,6 +3,8 @@ package bfsuserinput
 import java.util.*
 import kotlin.collections.ArrayDeque
 
+// https://developerhjg.tistory.com/144
+
 fun bfs(graph: MutableList<MutableList<Int>>, v: Int, visited: MutableList<Boolean>) {
     val q = ArrayDeque<Int>()
 
@@ -28,9 +30,9 @@ fun main() {
     val v: Int
     val graph: MutableList<MutableList<Int>>
 
-    with(Scanner(System.`in`)) {
-        v = readLine()!!.toInt() // readLine 으로 해야 복붙이 먹힘;
 
+    with(Scanner(System.`in`)) {
+        v = nextLine().toInt() // readLine 으로 해야 복붙이 먹힘;
         // 비어있는 2중 리스트 생성
         graph=(0..v).map{
             mutableListOf<Int>()
@@ -38,7 +40,7 @@ fun main() {
 
         // 각 버텍스(정점)에 연결된 엣지(간선) 받기
         for(i in 1..v){
-            readLine()?.split(" ")?.map {
+            nextLine().split(" ").map {
                 it.toIntOrNull()?.let { element ->
                     graph[i].add(element)
                 }
@@ -64,6 +66,7 @@ fun main() {
 7
 2 6 8
 1 7
+
 [output]
 1 2 3 8 7 4 5 6
  */
