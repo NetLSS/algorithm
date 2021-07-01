@@ -1,6 +1,6 @@
 package o3jeiwj
 
-fun binaraySearch(array: List<Int>, start: Int, end: Int, target: Int): Int?{
+fun binarySearch(array: List<Int>, start: Int, end: Int, target: Int): Int?{
     var s = start
     var e = end
     while(s<=e){
@@ -21,7 +21,7 @@ fun main()=with(System.`in`.bufferedReader()){
     val (n, target) = readLine().split(" ").map { it.toInt() }
     val arr = readLine().split(" ").map { it.toInt() }
 
-    println(binaraySearch(arr, 0,n-1, target)?:"존재 하지 않음")
+    println(binarySearch(arr, 0,n-1, target)?:"존재 하지 않음")
 }
 
 /*
