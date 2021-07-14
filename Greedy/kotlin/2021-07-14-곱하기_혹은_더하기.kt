@@ -17,6 +17,7 @@ class Solution {
 
     fun greedyPlusMulti(a:Int,b:Int): Int{
         return maxOf(a*b,a+b)
+        // 사실 0,1 일 때를 제외하고는 모두 곱해주는 것이 더 크다.
     }
 }
 
