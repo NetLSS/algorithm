@@ -3,21 +3,20 @@ package t210712_1
 // 여행을 떠날 수 있는 그룹 수의 최대 값 구하기
 
 class Solution {
-    fun solution(n : Int, fearLevelList: List<Int>) : Int{
-        val sortedFearLevelList =  fearLevelList.sortedDescending()
+    fun solution(n: Int, fearLevelList: List<Int>): Int {
+        val sortedFearLevelList = fearLevelList.sorted()
 
         var current = 0
         var groupCnt = 0
-        while(current < n){
+        while (current < n) {
 
             val fearLevel = sortedFearLevelList[current]
 
-            if(current + fearLevel - 1 < n){
+            if (current + fearLevel - 1 < n && sortedFearLevelList[current + fearLevel - 1] <= fearLevel) {
                 groupCnt++
             }
 
             current += fearLevel
-
         }
 
         return groupCnt
