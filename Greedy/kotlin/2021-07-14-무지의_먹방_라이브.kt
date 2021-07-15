@@ -7,32 +7,53 @@ class Solution {
         data class Food(val index: Int, var time: Long)
 
         var currentTime: Long = k
-        var currentFoodTimes = food_times.mapIndexed { index, i -> Food(index + 1, i.toLong()) }.toMutableList()
+        var sum:Long = 0L
+        var currentFoodTimes = food_times.mapIndexed { index, i -> sum+=i; Food(index + 1, i.toLong()) }.toMutableList()
+        currentFoodTimes.sortBy { it.time }
         while (true) {
-            if (currentFoodTimes.isEmpty())
+            if (currentFoodTimes.isEmpty() || k >= sum)
                 return -1
-            if (currentTime / currentFoodTimes.size > 0) {
-                val mok: Long = (currentTime / currentFoodTimes.size)//.toInt()
-                val minFood: Food = currentFoodTimes.minBy { it.time }!!//currentFoodTimes.minOf { it.time } // 프로그래머스 컴파일러 버전 미지원 (1.3ver)
+            if (currentTime / currentFoodTimes.size.toLong() > 0) {
+                val mok: Long = (currentTime / currentFoodTimes.size.toLong())//.toInt()
+                val minFood: Food = currentFoodTimes.first()//currentFoodTimes.minBy { it.time }!!//currentFoodTimes.minOf { it.time } // 프로그래머스 컴파일러 버전 미지원 (1.3ver)
                 val min: Long = minFood.time
                 if (mok >= min) {
-                    currentTime -= min * currentFoodTimes.size
+                    currentTime -= min * currentFoodTimes.size.toLong()
                     for (i in currentFoodTimes.indices) {
-                        currentFoodTimes[i].time -= min
+                        currentFoodTimes[i].time -= min // TODO 일일이 빼줄 필요가 없.
+
                     }
-                    currentFoodTimes = currentFoodTimes.filter { it.time > 0 }.toMutableList()
+                    if(currentFoodTimes[0].time == 0L){
+                        var end = 0
+                        for(i in currentFoodTimes.indices){
+                            if(currentFoodTimes[i].time != 0L){
+                                end = i
+                                break
+                            }
+                        }
+                        currentFoodTimes = currentFoodTimes.subList(end,currentFoodTimes.size).toMutableList()
+                    }
                 } else {
-                    currentTime -= mok * currentFoodTimes.size
+                    currentTime -= mok * currentFoodTimes.size.toLong()
                     for (i in currentFoodTimes.indices) {
                         currentFoodTimes[i].time -= mok
                     }
-                    currentFoodTimes = currentFoodTimes.filter { it.time > 0 }.toMutableList()
+                    if(currentFoodTimes[0].time == 0L){
+                        var end = 0
+                        for(i in currentFoodTimes.indices){
+                            if(currentFoodTimes[i].time != 0L){
+                                end = i
+                                break
+                            }
+                        }
+                        currentFoodTimes = currentFoodTimes.subList(end,currentFoodTimes.size).toMutableList()
+                    }
                 }
             } else {
                 break
             }
         }
-
+        currentFoodTimes.sortBy { it.index }
 
         return currentFoodTimes[currentTime.toInt()].index
     }
@@ -40,8 +61,9 @@ class Solution {
 
 fun main() {
     Solution().run {
-        println(solution(intArrayOf(4, 5, 6), 10))
-        println(solution(intArrayOf(3, 1, 2), 5))
+        println(solution(intArrayOf(4, 5, 6), 10)) // 2
+        println(solution(intArrayOf(3,1,2), 20)) // -1
+    //    println(solution(intArrayOf(3, 1, 2), 5))
 
     }
 }
