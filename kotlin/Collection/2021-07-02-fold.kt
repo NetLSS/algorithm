@@ -23,9 +23,9 @@ class Example {
             operation: (acc: R, T) -> R
         ): R
          */
-        // collect only even length Strings
+        // collect only even length Strings (짝수 길이의 문자열만 수집) (이때 각 그룹별로 수행됨, initial 도 마찬가지)
         val evenFruits = fruits.groupingBy { it.first() }
-            .fold(listOf<String>()) { acc, e -> if (e.length % 2 == 0) acc + e else acc }
+            .fold(listOf<String>()) { acc, e -> println(e); if (e.length % 2 == 0) acc + e else acc }
 
         println(evenFruits) // {a=[], b=[banana], c=[cherry]}
     }
