@@ -18,13 +18,9 @@ class Solution210813T1045 {
             val currentWord = requireNotNull(q.poll())
 
             currentWord.run {
+                // 가장 먼저 타겟이 되는 순간이 가장 짧은 변환 과정임
                 if (word == target) {
-                    answer = if (answer == 0) {
-                        depth
-                    } else {
-                        min(depth, answer)
-                    }
-                    return@run
+                    return depth
                 }
 
                 isVisited.forEachIndexed { index, b ->
