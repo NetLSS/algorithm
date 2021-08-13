@@ -10,9 +10,9 @@ class Solution210813T1045 {
 
         data class Word(val depth: Int, val word: String, val isVisited: List<Boolean>)
 
-        val q : Queue<Word> = LinkedList()
+        val q: Queue<Word> = LinkedList()
 
-        q.add(Word(0, begin, List(words.size){false}))
+        q.add(Word(0, begin, List(words.size) { false }))
 
         while (q.isNotEmpty()) {
             val currentWord = requireNotNull(q.poll())
@@ -29,7 +29,7 @@ class Solution210813T1045 {
 
                 isVisited.forEachIndexed { index, b ->
                     if (!b && isDiffOne(word, words[index])) {
-                        q.add(Word(depth+1, words[index], isVisited.toMutableList().apply { set(index,true) }))
+                        q.add(Word(depth + 1, words[index], isVisited.toMutableList().apply { set(index, true) }))
                     }
                 }
             }
@@ -40,9 +40,9 @@ class Solution210813T1045 {
     private fun isDiffOne(strA: String, strB: String): Boolean {
         var diffCount = 0
         strA.forEachIndexed { index, c ->
-            if(c != strB[index])
+            if (c != strB[index])
                 diffCount++
-            if(diffCount > 1)
+            if (diffCount > 1)
                 return false
         }
 
