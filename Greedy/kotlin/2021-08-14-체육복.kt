@@ -8,11 +8,10 @@ class Solution210814T1823 {
         answer += n - realLost.size
 
         realLost.forEach {
-            if(it - 1 in realReserve){
+            if (it - 1 in realReserve) {
                 answer++
                 realReserve.remove(it - 1)
-                return@forEach
-            } else if (it + 1 in realReserve){
+            } else if (it + 1 in realReserve) {
                 answer++
                 realReserve.remove(it + 1)
             }
