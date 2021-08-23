@@ -22,6 +22,7 @@ fun main() {
                 winningPicks.add(removeFirst())
             }
             println(winningPicks.sorted())
+            numberBox.clear()
         }
     }
 }
