@@ -20,9 +20,7 @@ class Solution210828T1251 {
                         val sum = curStock.sum + (rightNum - leftNum)
                         //println("$rightNum - $leftNum , total sum : $sum")
 
-                        val removeIndexRight = if (j == 1) 0 else j - 1
-
-                        q.add(Stock(curStock.prices.toMutableList().apply { removeAt(i); removeAt(removeIndexRight); }.toIntArray(), sum))
+                        q.add(Stock(curStock.prices.toMutableList().apply { removeAt(i); removeAt(j-1); }.toIntArray(), sum))
                         isAdded = true
                     }
                 }
