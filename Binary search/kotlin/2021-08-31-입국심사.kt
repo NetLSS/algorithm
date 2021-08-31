@@ -7,9 +7,10 @@ import kotlin.math.min
 class Solution210831T1030 {
     fun solution(n: Int, times: IntArray): Long {
 
-        val MAX_TIME = times.max()!! * n.toLong()
+        val MAX_TIME = times.max()!! * n.toLong() // 최악의 수는 가장 오래걸리는 심사원으로 부터 모든 사람이 검사 받는 수
         var answer: Long = MAX_TIME
 
+        // 시간 기준으로 처리할 수 있는 최대 사람 수를 구하는 함수
         fun calcMaxPeople(time: Long): Long {
             var maxPeople = 0L
             times.map {
@@ -21,14 +22,15 @@ class Solution210831T1030 {
         var start = 1L
         var end = MAX_TIME
 
+        // 이진 탐색
         while (start <= end) {
             val mid = (start + end) / 2L
 
             if (calcMaxPeople(mid) < n) {
                 start = mid + 1
-            } else {
+            } else { // calcMaxPeople(mid) >= n
                 answer = mid
-                end = mid - 1
+                end = mid - 1 // 처리 인원 보다 많이 처리하는 경우 가장 최적의 중앙 값으로 -1씩 이동하게 됨.
             }
         }
 
