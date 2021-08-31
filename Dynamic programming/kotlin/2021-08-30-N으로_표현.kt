@@ -59,6 +59,10 @@ class Solution210830copy1 {
 
 
 fun main() {
+    for (i in 1..10 - 2) {
+        println(i)
+    }
+
     Solution210830T1911().run {
         println(solution(5,12))
     }
