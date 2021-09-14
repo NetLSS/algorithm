@@ -1,24 +1,40 @@
 class Solution210914T1946 {
     fun solution(enter: IntArray, leave: IntArray): IntArray {
-        var answer: IntArray = IntArray(enter.size) { 0 }
+        val answer: IntArray = IntArray(enter.size) { 0 }
+        val set = mutableSetOf<Pair<Int, Int>>()
         for (i in 1..enter.size) {
             for (j in 1..enter.size) {
                 if (j == i) {
                     continue
                 }
+                // 먼저 들어가서 나중에 나간 경우
                 if (enter.indexOf(i) < enter.indexOf(j) && leave.indexOf(i) > leave.indexOf(j)) {
-                    answer[i-1]++
-                    answer[j-1]++
-                    println("$i : $j")
-                } else if (enter.indexOf(i) < enter.indexOf(j) && leave.indexOf(i) < leave.indexOf(j) && leave.indexOf(j) - leave.indexOf(i) > 1 ) {
+                    if (!set.contains(Pair(i, j))) {
+                        set.add(Pair(i, j))
+                        answer[i - 1]++
+                        answer[j - 1]++
+                    }
+
+                }
+                // 순서대로 들어왔다 나갔지만 중간에 더 나중에 들어온 사람이 더 먼저 나간 경우
+                else if (enter.indexOf(i) < enter.indexOf(j) && leave.indexOf(i) < leave.indexOf(j) && leave.indexOf(j) - leave.indexOf(
+                        i
+                    ) > 1
+                ) {
                     for (k in (leave.indexOf(i) + 1) until leave.indexOf(j)) {
-                        if (enter.indexOf(leave.elementAt(k)) > enter.indexOf(i) && enter.indexOf(leave.elementAt(k)) > enter.indexOf(j)) {
+                        if (enter.indexOf(leave.elementAt(k)) > enter.indexOf(i) && enter.indexOf(leave.elementAt(k)) > enter.indexOf(
+                                j
+                            )
+                        ) {
                             for (l in 0 until leave.indexOf(i)) {
                                 if (enter.indexOf(leave.elementAt(l)) > enter.indexOf(j)) {
-                                    answer[i-1]++
-                                    answer[j-1]++
-                                    println("$i : $j")
-                                    break
+                                    if (!set.contains(Pair(i, j))) {
+                                        set.add(Pair(i, j))
+                                        answer[i - 1]++
+                                        answer[j - 1]++
+                                        break
+
+                                    }
                                 }
                             }
 
@@ -27,10 +43,12 @@ class Solution210914T1946 {
                 } else if (enter.indexOf(i) < enter.indexOf(j) && leave.indexOf(i) < leave.indexOf(j)) {
                     for (k in enter.indexOf(j) + 1 until enter.size) {
                         if (leave.indexOf(enter.elementAt(k)) < leave.indexOf(i)) {
-                            answer[i-1]++
-                            answer[j-1]++
-                            println("$i : $j")
-                            break
+                            if (!set.contains(Pair(i, j))) {
+                                set.add(Pair(i, j))
+                                answer[i - 1]++
+                                answer[j - 1]++
+                                break
+                            }
                         }
                     }
                 }
@@ -38,15 +56,11 @@ class Solution210914T1946 {
         }
         return answer
     }
-    /*
-	[3, 2, 1], [1, 3, 2]
-	2:3
- */
 }
 
 fun main() {
     Solution210914T1946().run {
-        println(solution(intArrayOf(1,3,2), intArrayOf(1,2,3)))
+        println(solution(intArrayOf(1, 3, 2), intArrayOf(1, 2, 3)))
     }
 }
 
