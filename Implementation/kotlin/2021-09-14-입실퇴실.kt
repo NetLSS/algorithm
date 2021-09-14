@@ -1,56 +1,47 @@
+import java.util.*
+import kotlin.math.max
+import kotlin.math.min
+
 class Solution210914T1946 {
+
+    data class InOut(val cnt: Int, val set: MutableSet<Int>,val isIn: MutableList<Boolean>, val isOut: MutableList<Boolean>, val answer: MutableList<Int>)
+
     fun solution(enter: IntArray, leave: IntArray): IntArray {
-        val answer: IntArray = IntArray(enter.size) { 0 }
-        val set = mutableSetOf<Pair<Int, Int>>()
-        for (i in 1..enter.size) {
-            for (j in 1..enter.size) {
-                if (j == i) {
-                    continue
+        var answer: IntArray = IntArray(enter.size){Int.MAX_VALUE}
+
+        val q: Queue<InOut> = LinkedList()
+
+        q.add(InOut(0, mutableSetOf(), MutableList(enter.size){false}, MutableList(enter.size){false}, MutableList(enter.size){Int.MAX_VALUE}))
+
+        while (q.isNotEmpty()) {
+            val cur = q.poll()
+
+            if (cur.cnt == enter.size) {
+                cur.answer.mapIndexed { index, i ->
+                    answer[index] = min(answer[index], i)
                 }
-                // 먼저 들어가서 나중에 나간 경우
-                if (enter.indexOf(i) < enter.indexOf(j) && leave.indexOf(i) > leave.indexOf(j)) {
-                    if (!set.contains(Pair(i, j))) {
-                        set.add(Pair(i, j))
-                        answer[i - 1]++
-                        answer[j - 1]++
-                    }
+                println("empty ${cur.set}")
+                continue
+            }
 
-                }
-                // 순서대로 들어왔다 나갔지만 중간에 더 나중에 들어온 사람이 더 먼저 나간 경우
-                else if (enter.indexOf(i) < enter.indexOf(j) && leave.indexOf(i) < leave.indexOf(j) && leave.indexOf(j) - leave.indexOf(
-                        i
-                    ) > 1
-                ) {
-                    for (k in (leave.indexOf(i) + 1) until leave.indexOf(j)) {
-                        if (enter.indexOf(leave.elementAt(k)) > enter.indexOf(i) && enter.indexOf(leave.elementAt(k)) > enter.indexOf(
-                                j
-                            )
-                        ) {
-                            for (l in 0 until leave.indexOf(i)) {
-                                if (enter.indexOf(leave.elementAt(l)) > enter.indexOf(j)) {
-                                    if (!set.contains(Pair(i, j))) {
-                                        set.add(Pair(i, j))
-                                        answer[i - 1]++
-                                        answer[j - 1]++
-                                        break
+            cur.set.map {
+                cur.answer[it-1] = min(cur.set.size-1, cur.answer[it-1])
+            }
 
-                                    }
-                                }
-                            }
 
-                        }
-                    }
-                } else if (enter.indexOf(i) < enter.indexOf(j) && leave.indexOf(i) < leave.indexOf(j)) {
-                    for (k in enter.indexOf(j) + 1 until enter.size) {
-                        if (leave.indexOf(enter.elementAt(k)) < leave.indexOf(i)) {
-                            if (!set.contains(Pair(i, j))) {
-                                set.add(Pair(i, j))
-                                answer[i - 1]++
-                                answer[j - 1]++
-                                break
-                            }
-                        }
-                    }
+
+            println(cur.set)
+
+
+            val isInIndex = cur.isIn.indexOf(false)
+            if (isInIndex != -1) {
+                q.add(InOut(cur.cnt, cur.set.toMutableSet().apply { add(enter.elementAt(isInIndex)) }, cur.isIn.toMutableList().apply { set(isInIndex, true) }, cur.isOut.toMutableList(), cur.answer))
+            }
+
+            val isOutIndex = cur.isOut.indexOf(false)
+            if (isOutIndex != -1) {
+                if (cur.set.contains(leave.elementAt(isOutIndex))) {
+                    q.add(InOut(cur.cnt+1, cur.set.toMutableSet().apply { remove(leave.elementAt(isOutIndex)) }, cur.isIn.toMutableList(), cur.isOut.toMutableList().apply { set(isOutIndex, true) }, cur.answer))
                 }
             }
         }
@@ -60,7 +51,7 @@ class Solution210914T1946 {
 
 fun main() {
     Solution210914T1946().run {
-        println(solution(intArrayOf(1, 3, 2), intArrayOf(1, 2, 3)))
+        println(solution(intArrayOf(3,2,1), intArrayOf(1, 3, 2)))
     }
 }
 
