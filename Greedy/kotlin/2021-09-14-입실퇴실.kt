@@ -46,6 +46,7 @@ vector<int> solution(vector<int> enter, vector<int> leave) {
 
         hold.insert(enter[i]); // i 번째 사람 추가
         while (j < n && hold.find(leave[j]) != hold.end()) hold.erase(leave[j++]); // leave 할 사람 그대로 퇴실
+        // hold.find(leave[j]) != hold.end(): 못 찾은 경우. 수행x
     }
 
     return ret;
