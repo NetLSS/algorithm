@@ -9,6 +9,16 @@ class Lotto720 {
         groups.shuffle(Random(System.currentTimeMillis()))
         Thread.sleep(77)
         numbers.shuffle(Random(System.currentTimeMillis()))
+        Thread.sleep(77)
+        numbers.shuffle(Random(System.currentTimeMillis()))
+        Thread.sleep(77)
+        numbers.shuffle(Random(System.currentTimeMillis()))
+        Thread.sleep(77)
+        numbers.shuffle(Random(System.currentTimeMillis()))
+        Thread.sleep(77)
+        numbers.shuffle(Random(System.currentTimeMillis()))
+        Thread.sleep(77)
+        numbers.shuffle(Random(System.currentTimeMillis()))
     }
 
     fun pickNumber() {
