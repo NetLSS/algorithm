@@ -1,8 +1,8 @@
 import kotlin.random.Random
 
 class Lotto720 {
-    private val groups = ArrayDeque<Int>(5).apply { addAll(listOf(1,2,3,4,5)) }
-    private val numbers = ArrayDeque<Int>(10).apply { addAll(List(10){it}) }
+    private val groups = ArrayDeque<Int>(5).apply { addAll(listOf(1, 2, 3, 4, 5)) }
+    private val numbers = ArrayDeque<Int>(10).apply { addAll(List(10) { it }) }
 
     init {
         Thread.sleep(77)
