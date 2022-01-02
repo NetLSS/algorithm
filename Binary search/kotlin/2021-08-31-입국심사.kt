@@ -7,7 +7,7 @@ import kotlin.math.min
 class Solution210831T1030 {
     fun solution(n: Int, times: IntArray): Long {
 
-        val MAX_TIME = times.max()!! * n.toLong() // 최악의 수는 가장 오래걸리는 심사원으로 부터 모든 사람이 검사 받는 수
+        val MAX_TIME = times.maxOrNull()!! * n.toLong() // 최악의 수는 가장 오래걸리는 심사원으로 부터 모든 사람이 검사 받는 수
         var answer: Long = MAX_TIME
 
         // 시간 기준으로 처리할 수 있는 최대 사람 수를 구하는 함수
