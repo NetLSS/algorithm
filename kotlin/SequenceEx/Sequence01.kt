@@ -27,6 +27,8 @@ fun main() {
             yield(prime)
             numbers = numbers.drop(1)
                 .filter { println("filtered: $it"); it % prime != 0 }
+
+            println("numbers ${numbers.take(10).toList()}")
         }
     }
 
