@@ -1,5 +1,8 @@
 import kotlin.random.Random
 
+fun main() {
+    BuyLottery().startBuyMachine()
+}
 class BuyLottery {
     private val groups = ArrayDeque<Int>(5).apply { addAll(listOf(1, 2, 3, 4, 5)) }
     private val numbers = ArrayDeque<Int>(10).apply { addAll(List(10) { it }) }
@@ -95,8 +98,4 @@ class BuyLottery {
         }
     }
 
-}
-
-fun main() {
-    BuyLottery().startBuyMachine()
 }
