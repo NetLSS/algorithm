@@ -1,5 +1,4 @@
 import kotlin.random.Random
-
 fun main() {
     BuyLottery().startBuyMachine()
 }
@@ -24,7 +23,7 @@ class BuyLottery {
         numbers.shuffle(Random(System.currentTimeMillis()))
     }
 
-    fun buy720(buyCount: Int = 0) {
+    private fun buy720(buyCount: Int = 0) {
         println("[720 연금 복권 구매]")
         val pickCnt: Int = if (buyCount <= 0) {
             print("뽑을 개수 : ")
@@ -47,7 +46,8 @@ class BuyLottery {
 
     }
 
-    fun buy6_45(buyCount: Int = 0) {
+    @Suppress("FunctionName")
+    private fun buy6_45(buyCount: Int = 0) {
         println("[6-45 로또 복권 구매]")
         val numberBox = ArrayDeque<Int>()
         val pickCount: Int = if (buyCount <= 0) {
@@ -60,7 +60,7 @@ class BuyLottery {
         numberBox.run {
             for (pick in 1..pickCount) {
                 val winningPicks = mutableListOf<Int>()
-                addAll(List<Int>(45) { it + 1 })
+                addAll(List(45) { it + 1 })
 
                 for (i in 1..6) {
                     Thread.sleep(77)
@@ -83,8 +83,7 @@ class BuyLottery {
             2 = 6-45, 720 둘다
             입력 해주세요 :
         """.trimIndent())
-        val buyType = readLine()!!.toInt()
-        when (buyType) {
+        when (readLine()!!.toInt()) {
             0 -> {
                 buy6_45()
             }
