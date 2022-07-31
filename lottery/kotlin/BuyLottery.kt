@@ -1,26 +1,24 @@
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
+
 fun main() {
     BuyLottery().startBuyMachine()
 }
-class BuyLottery {
+
+class BuyLottery : CoroutineScope {
+    override val coroutineContext: CoroutineContext
+        get() = Job() + Dispatchers.IO
     private val groups = ArrayDeque<Int>(5).apply { addAll(listOf(1, 2, 3, 4, 5)) }
     private val numbers = ArrayDeque<Int>(10).apply { addAll(List(10) { it }) }
 
     init {
-        Thread.sleep(77)
-        groups.shuffle(Random(System.currentTimeMillis()))
-        Thread.sleep(77)
-        numbers.shuffle(Random(System.currentTimeMillis()))
-        Thread.sleep(77)
-        numbers.shuffle(Random(System.currentTimeMillis()))
-        Thread.sleep(77)
-        numbers.shuffle(Random(System.currentTimeMillis()))
-        Thread.sleep(77)
-        numbers.shuffle(Random(System.currentTimeMillis()))
-        Thread.sleep(77)
-        numbers.shuffle(Random(System.currentTimeMillis()))
-        Thread.sleep(77)
-        numbers.shuffle(Random(System.currentTimeMillis()))
+        runBlocking(Dispatchers.IO) {
+            repeat(7) {
+                delay(77)
+                groups.shuffle(Random(System.currentTimeMillis()))
+            }
+        }
     }
 
     private fun buy720(buyCount: Int = 0) {
@@ -58,6 +56,13 @@ class BuyLottery {
         }
 
         numberBox.run {
+            launch {
+                while (isActive) {
+                    delay(Random(System.currentTimeMillis()).nextLong(7, 777))
+                    shuffle(Random(System.currentTimeMillis()))
+                }
+
+            }
             for (pick in 1..pickCount) {
                 val winningPicks = mutableListOf<Int>()
                 addAll(List(45) { it + 1 })
@@ -76,20 +81,24 @@ class BuyLottery {
     }
 
     fun startBuyMachine() {
-        print("""
+        print(
+            """
             구매할 복권 종류
             0 = 6-45
             1 = 720
             2 = 6-45, 720 둘다
             입력 해주세요 :
-        """.trimIndent())
+        """.trimIndent()
+        )
         when (readLine()!!.toInt()) {
             0 -> {
                 buy6_45()
             }
+
             1 -> {
                 buy720()
             }
+
             2 -> {
                 buy720()
                 buy6_45()
