@@ -1,7 +1,9 @@
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import java.util.*
+import java.util.Collections.shuffle
 import kotlin.coroutines.CoroutineContext
-import kotlin.random.Random
+import kotlin.random.Random as kRandom
 
 fun main() = runBlocking {
     BuyLottery().startBuyMachine()
@@ -11,8 +13,8 @@ fun main() = runBlocking {
 class BuyLottery : CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Job() + Dispatchers.IO
-    private val groups = ArrayDeque<Int>(5).apply { addAll(listOf(1, 2, 3, 4, 5)) }
-    private val numbers = ArrayDeque<Int>(10).apply { addAll(List(10) { it }) }
+    private val groups = mutableListOf<Int>().apply { addAll(listOf(1, 2, 3, 4, 5)) }
+    private val numbers = mutableListOf<Int>().apply { addAll(List(10) { it }) }
 
     init {
         runBlocking(Dispatchers.IO) {
@@ -38,7 +40,7 @@ class BuyLottery : CoroutineScope {
             repeat(pickCnt) {
                 launch {
                     delay(it * 7L)
-                    val winningGroup = groups.random(Random(System.currentTimeMillis()))
+                    val winningGroup = groups.random(kRandom(System.currentTimeMillis()))
                     val winningNumber = mutableListOf<Int>()
                     for (i in 1..6) {
                         delay(77L + it * 7L)
@@ -59,7 +61,7 @@ class BuyLottery : CoroutineScope {
     @Suppress("FunctionName")
     private fun buy6_45(buyCount: Int = 0) {
         println("[6-45 로또 복권 구매]")
-        val numberBox = ArrayDeque<Int>()
+        val numberBox = mutableListOf<Int>()
         val pickCount: Int = if (buyCount <= 0) {
             print("뽑을 개수 : ")
             readLine()!!.toInt()
@@ -70,10 +72,10 @@ class BuyLottery : CoroutineScope {
         numberBox.run {
             launch {
                 while (isActive) {
-                    delay(Random(System.currentTimeMillis()).nextLong(7, 777))
-                    shuffle(Random(System.currentTimeMillis()))
+                    delay(kRandom(System.currentTimeMillis()).nextLong(7, 777))
+                    if (size > 0)
+                        shuffle(this@run, Random(System.currentTimeMillis()))
                 }
-
             }
             for (pick in 1..pickCount) {
                 val winningPicks = mutableListOf<Int>()
@@ -90,6 +92,10 @@ class BuyLottery : CoroutineScope {
                 clear()
             }
         }
+    }
+
+    private fun <E> MutableList<E>.removeFirst(): E {
+        return removeAt(0)
     }
 
     suspend fun startBuyMachine() {
