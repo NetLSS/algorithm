@@ -1,9 +1,11 @@
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
 
-fun main() {
+fun main() = runBlocking {
     BuyLottery().startBuyMachine()
+
 }
 
 class BuyLottery : CoroutineScope {
@@ -21,7 +23,7 @@ class BuyLottery : CoroutineScope {
         }
     }
 
-    private fun buy720(buyCount: Int = 0) {
+    private suspend fun buy720(buyCount: Int = 0) {
         println("[720 연금 복권 구매]")
         val pickCnt: Int = if (buyCount <= 0) {
             print("뽑을 개수 : ")
@@ -30,18 +32,28 @@ class BuyLottery : CoroutineScope {
             buyCount
         }
 
-        for (pCnt in 1..pickCnt) {
-            val winningGroup = groups.random(Random(System.currentTimeMillis()))
-            val winningNumber = mutableListOf<Int>()
-            for (i in 1..6) {
-                Thread.sleep(77)
-                winningNumber.add(numbers.random())
+        val channel = Channel<String>()
+
+        coroutineScope {
+            repeat(pickCnt) {
+                launch {
+                    delay(it * 7L)
+                    val winningGroup = groups.random(Random(System.currentTimeMillis()))
+                    val winningNumber = mutableListOf<Int>()
+                    for (i in 1..6) {
+                        delay(77L + it * 7L)
+                        winningNumber.add(numbers.random())
+                    }
+                    channel.send("${winningGroup}조 $winningNumber")
+                }
             }
 
-            println("${winningGroup}조 $winningNumber")
+            launch {
+                repeat(pickCnt) {
+                    println(channel.receive())
+                }
+            }.join()
         }
-
-
     }
 
     @Suppress("FunctionName")
@@ -80,7 +92,7 @@ class BuyLottery : CoroutineScope {
         }
     }
 
-    fun startBuyMachine() {
+    suspend fun startBuyMachine() {
         print(
             """
             구매할 복권 종류
