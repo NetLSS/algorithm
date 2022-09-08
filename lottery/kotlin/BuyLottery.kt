@@ -29,7 +29,9 @@ class BuyLottery : CoroutineScope {
         println("[720 연금 복권 구매]")
         val pickCnt: Int = if (buyCount <= 0) {
             print("뽑을 개수 : ")
-            readLine()!!.toInt()
+            kotlin.runCatching {
+                readLine()?.toInt() ?: 0
+            }.getOrDefault(0)
         } else {
             buyCount
         }
@@ -64,7 +66,9 @@ class BuyLottery : CoroutineScope {
         val numberBox = mutableListOf<Int>()
         val pickCount: Int = if (buyCount <= 0) {
             print("뽑을 개수 : ")
-            readLine()!!.toInt()
+            kotlin.runCatching {
+                readLine()?.toInt() ?: 0
+            }.getOrDefault(0)
         } else {
             buyCount
         }
@@ -108,19 +112,19 @@ class BuyLottery : CoroutineScope {
             입력 해주세요 :
         """.trimIndent()
         )
-        when (readLine()!!.toInt()) {
-            0 -> {
-                buy6_45()
+        kotlin.runCatching {
+            readLine()?.toInt() ?: 0
+        }.onSuccess {
+            when (it) {
+                0 -> buy6_45()
+                1 -> buy720()
+                2 -> {
+                    buy6_45()
+                    buy720()
+                }
             }
-
-            1 -> {
-                buy720()
-            }
-
-            2 -> {
-                buy720()
-                buy6_45()
-            }
+        }.onFailure {
+            println("잘못된 입력입니다.")
         }
     }
 
